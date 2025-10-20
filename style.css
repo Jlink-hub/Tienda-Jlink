@@ -6,8 +6,15 @@ body {
     color: #333;
 }
 header {
-    background-color: #B80F0A; /* Rojo Sangre */
-    color: black;
+    /* 1. CONFIGURACIÓN DE IMAGEN DE FONDO */
+    background-image: url('logo-jlink.png'); /* <-- Cambie 'logo-jlink.png' por el nombre exacto de su archivo de imagen */
+    background-size: cover; /* Hace que la imagen cubra toda el área */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    height: 150px; /* <--- Altura para mostrar la imagen (ajuste este valor si es necesario) */
+    
+    /* Propiedades de texto heredadas que se mantienen */
+    color: black; 
     padding: 10px 0;
     text-align: center;
 }
