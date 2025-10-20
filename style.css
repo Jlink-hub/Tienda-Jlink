@@ -11,7 +11,7 @@ header {
     background-size: cover; /* Hace que la imagen cubra toda el área */
     background-position: center; /* Centra la imagen */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
-    height: 80px; /* <--- Altura para mostrar la imagen (ajuste este valor si es necesario) */
+    height: 5px; /* <--- Altura para mostrar la imagen (ajuste este valor si es necesario) */
     
     /* Propiedades de texto heredadas que se mantienen */
     color: black; 
