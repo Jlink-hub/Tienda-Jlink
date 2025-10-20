@@ -26,7 +26,7 @@ header {
     color: white; /* Texto blanco para contraste */
     padding: 10px 20px;
     text-align: left;
-    width: 75%; /* Ocupa el 65% del ancho, dejando 35% a la derecha para la imagen */
+    width: 90%; /* Ocupa el 65% del ancho, dejando 35% a la derecha para la imagen */
     box-sizing: border-box; 
     height: 100%; /* Ocupa toda la altura del header */
     display: flex; /* Para centrar el texto verticalmente dentro del div */
