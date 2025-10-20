@@ -6,18 +6,41 @@ body {
     color: #333;
 }
 header {
-    /* 1. CONFIGURACIÓN DE IMAGEN DE FONDO */
-    background-image: url('logo-jlink.png.jpeg'); /* <-- Cambie 'logo-jlink.png' por el nombre exacto de su archivo de imagen */
-    background-size: contain; /* Hace que la imagen cubra toda el área */
-    background-position: right; /* Centra la imagen */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
-    height: 150px; /* <--- Altura para mostrar la imagen (ajuste este valor si es necesario) */
+    /* Configuración para la IMAGEN de fondo */
+    background-image: url('logo-jlink.png.jpeg'); /* Asegúrese de que el nombre del archivo sea exacto */
+    background-size: contain; 
+    background-position: right center; /* Mantiene la imagen a la derecha y centrada verticalmente */
+    background-repeat: no-repeat; 
+    height: 150px; /* Altura total del encabezado */
     
-    /* Propiedades de texto heredadas que se mantienen */
+    /* Propiedades de visualización */
     color: black; 
-    padding: 10px 0;
-    text-align: center;
+    padding: 0; /* Quitamos padding del header */
+    display: flex; /* Permite que el texto se coloque al lado de la imagen (aunque es un fondo) */
+    align-items: center; /* Centra verticalmente el contenido (el header-texto) */
 }
+
+/* ¡NUEVO! ESTILO para el fondo ROJO del texto */
+.header-texto {
+    background-color: rgba(184, 15, 10, 0.9); /* Rojo Sangre con 90% de opacidad */
+    color: white; /* Texto blanco para contraste */
+    padding: 10px 20px;
+    text-align: left;
+    width: 65%; /* Ocupa el 65% del ancho, dejando 35% a la derecha para la imagen */
+    box-sizing: border-box; 
+    height: 100%; /* Ocupa toda la altura del header */
+    display: flex; /* Para centrar el texto verticalmente dentro del div */
+    align-items: center;
+}
+
+/* Estilo para el título H1 dentro del fondo rojo */
+.header-texto h1 {
+    font-size: 1.5em; /* Tamaño del título */
+    margin: 0;
+    padding: 0;
+}
+
+
 #productos {
     padding: 20px;
     max-width: 1000px;
