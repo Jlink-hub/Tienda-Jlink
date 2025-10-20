@@ -7,7 +7,7 @@ body {
 }
 header {
     /* 1. CONFIGURACIÓN DE IMAGEN DE FONDO */
-    background-image: url('logo-jlink.png'); /* <-- Cambie 'logo-jlink.png' por el nombre exacto de su archivo de imagen */
+    background-image: url('logo-jlink.png.jpeg'); /* <-- Cambie 'logo-jlink.png' por el nombre exacto de su archivo de imagen */
     background-size: cover; /* Hace que la imagen cubra toda el área */
     background-position: center; /* Centra la imagen */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
