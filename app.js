@@ -1,56 +1,92 @@
-// Este es un objeto simulado (mock) de datos. 
-// En una fase posterior, esta información vendrá de tu base de datos DynamoDB.
-const baseDeDatos = {
-    1: { 
-        nombre: "ESP32 DevKit", 
-        precio: "$15.00", 
-        descripcion: "Módulo potente con Wi-Fi, Bluetooth y doble núcleo. Ideal para proyectos de IoT y seguridad.",
-        stock: 50 
-    },
-    2: { 
-        nombre: "Sensor de Temperatura DS18B20", 
-        precio: "$5.50", 
-        descripcion: "Sensor digital de temperatura sumergible, de alta precisión.",
-        stock: 120 
-    },
-    // Aquí se agregarían más productos
-};
+// 🚨 ¡IMPORTANTE! Esta es la URL de tu API Gateway para obtener los productos de DynamoDB 🚨
+const API_URL_BASE = 'https://dj699vbqjb.execute-api.us-east-2.amazonaws.com/default/APIProductosWeb'; 
+
+// Objeto global para almacenar los productos en la memoria después de cargarlos de la API
+window.todosLosProductos = {};
+
+// Función para cargar todos los productos de DynamoDB a través de la API
+async function cargarProductosIniciales() {
+    console.log("Intentando cargar productos desde:", API_URL_BASE);
+    
+    try {
+        const response = await fetch(API_URL_BASE);
+        
+        // Verifica si la respuesta HTTP es exitosa
+        if (!response.ok) {
+            throw new Error(`Error en la respuesta de la red: ${response.status}`);
+        }
+        
+        const productos = await response.json();
+        
+        const listaProductosDiv = document.getElementById('lista-productos');
+        listaProductosDiv.innerHTML = ''; // Limpiar el contenido previo
+        
+        if (productos.length === 0) {
+             listaProductosDiv.innerHTML = '<p>No hay productos disponibles en la base de datos.</p>';
+             return;
+        }
+
+        // 1. Cargar productos en la lista y en la memoria
+        productos.forEach(producto => {
+            // Se asume que DynamoDB devuelve IDProducto, Nombre, Precio, Descripcion (¡Cuidado con mayúsculas/minúsculas!)
+            
+            // Guardar en la memoria para el detalle rápido
+            window.todosLosProductos[producto.IDProducto] = producto;
+
+            // Crear el elemento en la lista
+            const productoDiv = document.createElement('div');
+            productoDiv.className = 'producto';
+            productoDiv.setAttribute('data-id', producto.IDProducto);
+            
+            // Usamos las mayúsculas iniciales porque así se definieron en DynamoDB
+            const nombre = producto.Nombre || 'Producto sin nombre';
+            const descripcionCorta = producto.Descripcion ? producto.Descripcion.substring(0, 50) + '...' : 'Sin descripción.';
+            
+            productoDiv.innerHTML = `
+                <h3>${nombre}</h3>
+                <p>${descripcionCorta}</p>
+                <button onclick="mostrarDetalle('${producto.IDProducto}')">Ver Detalles</button>
+            `;
+            listaProductosDiv.appendChild(productoDiv);
+        });
+        
+        // Mostrar el detalle del primer producto al cargar (opcional)
+        if (productos.length > 0) {
+            mostrarDetalle(productos[0].IDProducto);
+        }
+
+    } catch (error) {
+        console.error("Error al cargar productos:", error);
+        document.getElementById('lista-productos').innerHTML = 
+            '<p style="color: red;">Error al conectar con el backend. Revisa la consola para más detalles o verifica la URL de la API.</p>';
+    }
+}
+
 
 // Función principal para mostrar el detalle del producto
 function mostrarDetalle(idProducto) {
-    const producto = baseDeDatos[idProducto];
+    // Usamos el producto que ya cargamos de la API al inicio
+    const producto = window.todosLosProductos[idProducto];
     const contenedorDetalle = document.getElementById('detalle-producto');
 
     if (producto) {
-        // Renderiza el nuevo contenido del producto
         contenedorDetalle.innerHTML = `
-            <h3>Detalle: ${producto.nombre}</h3>
-            <p><strong>Precio:</strong> ${producto.precio}</p>
-            <p><strong>Descripción:</strong> ${producto.descripcion}</p>
-            <button class="btn-whatsapp">Comprar ${producto.nombre}</button>
+            <h3>Detalle: ${producto.Nombre}</h3>
+            <p><strong>Precio:</strong> ${producto.Precio || 'N/D'}</p>
+            <p><strong>Descripción:</strong> ${producto.Descripcion}</p>
+            <a href="https://wa.me/XXXXXXXXXX" class="btn-whatsapp" target="_blank">Comprar ${producto.Nombre}</a>
             <hr>
         `;
     } else {
-        contenedorDetalle.innerHTML = '<p>Producto no encontrado.</p>';
+        contenedorDetalle.innerHTML = '<p>Producto no encontrado en la lista.</p>';
     }
 }
 
 // Lógica de Redirección y Login (Acceso Personal)
 document.getElementById('btn-personal').addEventListener('click', function(e) {
-    e.preventDefault(); // Evita que la página salte
-    
-    // En la versión final, aquí iría una ventana modal (pop-up) pidiendo usuario y contraseña,
-    // y luego el código de autenticación con la API de AWS Lambda/API Gateway.
-    
-    // Por ahora, simula el mensaje de login y la futura redirección:
-    alert("¡Bienvenido al Área Personal!\n\nEsta sección requerirá Usuario y Contraseña.\n\nSerás redirigido a la página de Proyectos/ESP32 e IA...");
-
-    // Si el login fuera exitoso, se haría la redirección:
-    // window.location.href = '/dashboard-personal.html'; 
+    e.preventDefault(); 
+    alert("¡Bienvenido al Área Personal!\n\nSe requiere autenticación. Esta funcionalidad será implementada en la siguiente fase (Login con Cognito/API).");
 });
 
-// Inicializa el primer producto o un mensaje de bienvenida
-document.addEventListener('DOMContentLoaded', () => {
-    // Puedes cargar un producto destacado por defecto si lo deseas
-    // mostrarDetalle(1); 
-});
+// Llama a la función para cargar productos cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', cargarProductosIniciales);
