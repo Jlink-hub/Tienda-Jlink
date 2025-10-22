@@ -1,6 +1,7 @@
 // app.js
 
 // 🛑 ¡IMPORTANTE! Esta es la URL de tu API Gateway para obtener los productos de DynamoDB.
+// URL de invocación de tu API Gateway: dj699vbqjb
 const API_URL_BASE = 'https://dj699vbqjb.execute-api.us-east-2.amazonaws.com/default/APIProductosWeb';
 
 // Objeto global para almacenar los productos en la memoria después de cargarlos de la API
@@ -25,14 +26,9 @@ async function cargarProductosIniciales() {
             throw new Error(`Error en la respuesta de la red: ${response.status}`);
         }
 
-        // 🛑 CORRECCIÓN DE DECODIFICACIÓN 🛑
-        // 1. Decodifica el objeto JSON externo (la respuesta de API Gateway)
+        // 🛑 CORRECCIÓN DE DECODIFICACIÓN (API Gateway) 🛑
         const apiResponse = await response.json(); 
-
-        // 2. Extrae la cadena de texto que contiene el Array de productos (viene en la propiedad "body")
         const productsJSONString = apiResponse.body; 
-
-        // 3. Decodifica la cadena de texto para obtener el Array real de JavaScript
         let products = [];
         if (productsJSONString) {
             products = JSON.parse(productsJSONString);
@@ -58,10 +54,14 @@ async function cargarProductosIniciales() {
             productoDiv.className = "producto";
             productoDiv.setAttribute("data-id", producto.IDProducto);
 
+            // Obtener la URL de la imagen, o usar un marcador de posición si falta el campo
+            // Nota: Aquí la URL de la imagen debe ser un campo llamado 'URLImagen' en DynamoDB
+            const imagenSrc = producto.URLImagen || 'http://via.placeholder.com/200';
+
             // Nota: La descripción larga se recorta para la vista de lista
             productoDiv.innerHTML = `
                 <div class="col-md-6">
-                    <img src="https://via.placeholder.com/200" alt="${producto.Nombre}" class="img-fluid">
+                    <img src="${imagenSrc}" alt="${producto.Nombre}" class="img-fluid">
                 </div>
                 <div class="col-md-6">
                     <h2>${producto.Nombre}</h2>
