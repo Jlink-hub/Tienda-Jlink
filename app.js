@@ -2,13 +2,21 @@
 
 // 🛑 ¡IMPORTANTE! Esta es la URL de tu API Gateway para obtener los productos de DynamoDB.
 // URL de invocación de tu API Gateway: dj699vbqjb
-const API_URL_BASE = 'https://dj699vbqjb.execute-api.us-east-2.amazonaws.com/default/APIProductosWeb';
+const API_URL_BASE = 'https://dj699vbqjb.execute-api.us-east-2.amazonaws.com/default/APIProductosWeb'; // URL obtenida de las etapas de tu API Gateway
 
 // Objeto global para almacenar los productos en la memoria después de cargarlos de la API
 window.todosLosProductos = {};
 
 async function cargarProductosIniciales() {
     console.log("Intentando cargar productos desde:", API_URL_BASE);
+
+    // Aseguramos que el contenedor de productos exista y limpiamos el contenido previo
+    const listaProductosDiv = document.getElementById("lista-productos");
+    if (!listaProductosDiv) {
+        console.error("No se encontró el elemento con ID 'lista-productos'.");
+        return;
+    }
+    listaProductosDiv.innerHTML = "<p>Cargando productos...</p>";
 
     try {
         const response = await fetch(API_URL_BASE);
@@ -18,26 +26,31 @@ async function cargarProductosIniciales() {
             throw new Error(`Error en la respuesta de la red: ${response.status}`);
         }
 
-        // 🛑 INICIO DE CORRECCIÓN: Manejar la doble codificación JSON 🛑
+        // 🛑 CORRECCIÓN CRÍTICA: Manejar la doble codificación JSON de API Gateway 🛑
         const productsText = await response.text();
         let products;
 
         try {
             // Intenta decodificar el texto una vez
             products = JSON.parse(productsText);
+            
+            // Revisa si el resultado de la primera decodificación sigue siendo una cadena.
+            if (typeof products === 'string') {
+                // Si lo es, decodifica de nuevo (esto corrige el error "forEach is not a function")
+                products = JSON.parse(products);
+            }
+            
         } catch (e) {
-            // Si falla, significa que la API Gateway lo envió como una cadena dentro de una cadena.
-            // Esto sucede si el API Gateway no está usando una integración de proxy simple.
-            // Intenta decodificar dos veces:
-            products = JSON.parse(JSON.parse(productsText));
+            // Si algo falla en la decodificación, asumimos que no hay productos o el formato es inválido
+            console.error("Fallo al decodificar JSON:", e);
+            products = []; 
         }
         // 🛑 FIN DE CORRECCIÓN 🛑
         
-        const listaProductosDiv = document.getElementById("lista-productos");
-        // Limpiar el contenido previo
+        // Limpiar el mensaje de "Cargando productos..."
         listaProductosDiv.innerHTML = ""; 
 
-        // Verificamos que sea un array y no un objeto vacío o null
+        // Verificamos que sea un array y que tenga elementos
         if (!Array.isArray(products) || products.length === 0) {
             listaProductosDiv.innerHTML = "<p>No hay productos disponibles en la base de datos.</p>";
             return;
@@ -46,7 +59,7 @@ async function cargarProductosIniciales() {
         // 1. Cargar productos en la lista y en la memoria
         products.forEach(producto => {
             // Se asume que DynamoDB devuelve IDProducto, Nombre, Precio, Descripcion 
-            // (¡Cuidado con mayúsculas/minúsculas!)
+            // Los datos de DynamoDB para este producto son correctos
 
             // Guardar en la memoria para el detalle rápido
             window.todosLosProductos[producto.IDProducto] = producto;
@@ -56,7 +69,7 @@ async function cargarProductosIniciales() {
             productoDiv.className = "producto";
             productoDiv.setAttribute("data-id", producto.IDProducto);
 
-            // Nota: Se usa 'producto.Descripcion.substring(0, 150)' para evitar texto demasiado largo.
+            // Nota: La descripción larga se recorta para la vista de lista
             productoDiv.innerHTML = `
                 <div class="col-md-6">
                     <img src="https://via.placeholder.com/200" alt="${producto.Nombre}" class="img-fluid">
@@ -76,8 +89,6 @@ async function cargarProductosIniciales() {
 
     } catch (error) {
         console.error("Error al cargar productos:", error);
-        const listaProductosDiv = document.getElementById("lista-productos");
-        // Mostrar error, pero ahora el mensaje debería ser más limpio si la doble decodificación funciona
         listaProductosDiv.innerHTML = `<p class="alert alert-danger">Error al cargar los productos: ${error.message}</p>`;
     }
 }
