@@ -1,7 +1,6 @@
 // app.js
 
 // 🛑 ¡IMPORTANTE! Esta es la URL de tu API Gateway para obtener los productos de DynamoDB.
-// URL de invocación de tu API Gateway: dj699vbqjb
 const API_URL_BASE = 'https://dj699vbqjb.execute-api.us-east-2.amazonaws.com/default/APIProductosWeb';
 
 // Objeto global para almacenar los productos en la memoria después de cargarlos de la API
@@ -26,12 +25,11 @@ async function cargarProductosIniciales() {
             throw new Error(`Error en la respuesta de la red: ${response.status}`);
         }
 
-        // 🛑 CORRECCIÓN FINAL: Decodificación del JSON 🛑
+        // 🛑 CORRECCIÓN DE DECODIFICACIÓN 🛑
         // 1. Decodifica el objeto JSON externo (la respuesta de API Gateway)
         const apiResponse = await response.json(); 
 
-        // 2. Extrae la cadena de texto que contiene el Array de productos
-        // Esto es necesario porque API Gateway NO está usando la integración de proxy simple.
+        // 2. Extrae la cadena de texto que contiene el Array de productos (viene en la propiedad "body")
         const productsJSONString = apiResponse.body; 
 
         // 3. Decodifica la cadena de texto para obtener el Array real de JavaScript
@@ -70,7 +68,7 @@ async function cargarProductosIniciales() {
                     <p>${producto.Descripcion.substring(0, 150)}...</p> 
                     <p><strong>Precio: $${producto.Precio}</strong></p>
                     <button onclick="verDetalle('${producto.IDProducto}')">Ver Detalle</button>
-                    <a href="https://wa.me/?text=Me interesa el producto ${producto.Nombre}. Precio: $${producto.Precio}" target="_blank" class="btn btn-success mt-2">
+                    <a href="https://wa.me/593997419277?text=Me interesa el producto ${producto.Nombre}. Precio: $${producto.Precio}" target="_blank" class="btn btn-success mt-2">
                         Comprar por WhatsApp
                     </a>
                 </div>
