@@ -1,3 +1,8 @@
+/* style.css */
+
+/* ---------------------------------- */
+/* 1. Estilos Generales y del Cuerpo   */
+/* ---------------------------------- */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -5,67 +10,147 @@ body {
     background-color: #f4f4f4;
     color: #333;
 }
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* ---------------------------------- */
+/* 2. Estilos de la Cabecera (Header) */
+/* ---------------------------------- */
 header {
-    /* Configuración para la IMAGEN de fondo */
-    background-image: url('logo-jlink.png.jpeg'); /* Asegúrese de que el nombre del archivo sea exacto */
-    background-size: contain; 
-    background-position: right center; /* Mantiene la imagen a la derecha y centrada verticalmente */
-    background-repeat: no-repeat; 
-    height: 150px; /* Altura total del encabezado */
-    
-    /* Propiedades de visualización */
-    color: black; 
-    padding: 0; /* Quitamos padding del header */
-    display: flex; /* Permite que el texto se coloque al lado de la imagen (aunque es un fondo) */
-    align-items: center; /* Centra verticalmente el contenido (el header-texto) */
-}
-
-/* ¡NUEVO! ESTILO para el fondo ROJO del texto */
-.header-texto {
-    background-color: rgba(184, 15, 10, 0.9); /* Rojo Sangre con 90% de opacidad */
-    color: white; /* Texto blanco para contraste */
-    padding: 10px 20px;
-    text-align: left;
-    width: 87%; /* Ocupa el 65% del ancho, dejando 35% a la derecha para la imagen */
-    box-sizing: border-box; 
-    height: 100%; /* Ocupa toda la altura del header */
-    display: flex; /* Para centrar el texto verticalmente dentro del div */
-    align-items: center;
-}
-
-/* Estilo para el título H1 dentro del fondo rojo */
-.header-texto h1 {
-    font-size: 1.5em; /* Tamaño del título */
-    margin: 0;
-    padding: 0;
-}
-
-
-#productos {
-    padding: 20px;
-    max-width: 1000px;
-    margin: auto;
-}
-.producto {
-    background: white;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.btn-whatsapp {
-    display: inline-block;
-    background-color: #25d366; /* Verde de WhatsApp */
+    background-color: #A00000; /* Color rojo oscuro de tu cabecera */
     color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-top: 10px;
+    padding: 40px 0;
+    text-align: left;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-footer {
-    text-align: center;
-    padding: 10px;
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    padding-left: 20px;
+}
+
+header h2 {
+    margin: 5px 0 0;
+    font-size: 1.2em;
+    padding-left: 20px;
+    font-weight: 300;
+}
+
+/* ---------------------------------- */
+/* 3. Estilos de la Lista de Productos*/
+/* ---------------------------------- */
+#lista-productos {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.producto {
+    display: flex; /* Usa flexbox para alinear la imagen y el texto */
+    flex-wrap: wrap; /* Permite que los elementos se apilen en pantallas pequeñas */
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.producto h2 {
+    color: #A00000;
+    margin-top: 0;
+}
+
+.producto p {
+    margin-bottom: 10px;
+}
+
+/* Distribución en la cuadrícula (Basado en Bootstrap-like col-md-6) */
+.col-md-6 {
+    flex: 0 0 100%; /* Por defecto, ocupa todo el ancho en móvil */
+    max-width: 100%;
+    padding: 0 15px; /* Espacio interno para la columna */
+}
+
+/* En pantallas más grandes (simulando col-md-6) */
+@media (min-width: 768px) {
+    .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+/* ---------------------------------- */
+/* 4. Solución al Tamaño de la Imagen (CRÍTICO) */
+/* ---------------------------------- */
+
+/* ⚠️ Asegura que la imagen sea fluida, NO se desborde, y mantenga su proporción */
+.img-fluid {
+    max-width: 100%; 
+    height: auto;    
+}
+
+/* 🟢 REGLA DE TAMAÑO: Restringe el tamaño máximo de la imagen del producto */
+.producto img {
+    max-width: 200px; /* <--- Aumenta o disminuye este valor para cambiar el tamaño */
+    height: auto;     /* Mantiene la proporción */
+    display: block;   /* Para aplicar centrado y márgenes */
+    margin: 0 auto 15px auto; /* Centrado horizontal y margen inferior */
+    border: 1px solid #eee; /* Borde opcional */
+    padding: 5px;
+}
+
+/* Ajuste para la columna de la imagen en móvil */
+.producto .col-md-6:first-child { 
+    text-align: center; /* Centra la imagen en el móvil */
+}
+
+/* ---------------------------------- */
+/* 5. Estilos de Botones y Footer     */
+/* ---------------------------------- */
+
+button, .btn-success {
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button {
     background-color: #333;
     color: white;
-    margin-top: 20px;
+    border: none;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+.btn-success {
+    background-color: #25D366; /* Verde de WhatsApp */
+    color: white;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #128C7E;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    border-top: 1px solid #ddd;
+    color: #666;
+    background-color: white;
 }
