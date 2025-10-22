@@ -2,7 +2,7 @@
 
 // 🛑 ¡IMPORTANTE! Esta es la URL de tu API Gateway para obtener los productos de DynamoDB.
 // URL de invocación de tu API Gateway: dj699vbqjb
-const API_URL_BASE = 'https://dj699vbqjb.execute-api.us-east-2.amazonaws.com/default/APIProductosWeb'; // URL obtenida de las etapas de tu API Gateway
+const API_URL_BASE = 'https://dj699vbqjb.execute-api.us-east-2.amazonaws.com/default/APIProductosWeb';
 
 // Objeto global para almacenar los productos en la memoria después de cargarlos de la API
 window.todosLosProductos = {};
@@ -10,7 +10,7 @@ window.todosLosProductos = {};
 async function cargarProductosIniciales() {
     console.log("Intentando cargar productos desde:", API_URL_BASE);
 
-    // Aseguramos que el contenedor de productos exista y limpiamos el contenido previo
+    // Aseguramos que el contenedor de productos exista y mostramos un mensaje de carga
     const listaProductosDiv = document.getElementById("lista-productos");
     if (!listaProductosDiv) {
         console.error("No se encontró el elemento con ID 'lista-productos'.");
@@ -26,24 +26,18 @@ async function cargarProductosIniciales() {
             throw new Error(`Error en la respuesta de la red: ${response.status}`);
         }
 
-        // 🛑 CORRECCIÓN CRÍTICA: Manejar la doble codificación JSON de API Gateway 🛑
-        const productsText = await response.text();
-        let products;
+        // 🛑 CORRECCIÓN FINAL: Decodificación del JSON 🛑
+        // 1. Decodifica el objeto JSON externo (la respuesta de API Gateway)
+        const apiResponse = await response.json(); 
 
-        try {
-            // Intenta decodificar el texto una vez
-            products = JSON.parse(productsText);
-            
-            // Revisa si el resultado de la primera decodificación sigue siendo una cadena.
-            if (typeof products === 'string') {
-                // Si lo es, decodifica de nuevo (esto corrige el error "forEach is not a function")
-                products = JSON.parse(products);
-            }
-            
-        } catch (e) {
-            // Si algo falla en la decodificación, asumimos que no hay productos o el formato es inválido
-            console.error("Fallo al decodificar JSON:", e);
-            products = []; 
+        // 2. Extrae la cadena de texto que contiene el Array de productos
+        // Esto es necesario porque API Gateway NO está usando la integración de proxy simple.
+        const productsJSONString = apiResponse.body; 
+
+        // 3. Decodifica la cadena de texto para obtener el Array real de JavaScript
+        let products = [];
+        if (productsJSONString) {
+            products = JSON.parse(productsJSONString);
         }
         // 🛑 FIN DE CORRECCIÓN 🛑
         
@@ -58,9 +52,6 @@ async function cargarProductosIniciales() {
 
         // 1. Cargar productos en la lista y en la memoria
         products.forEach(producto => {
-            // Se asume que DynamoDB devuelve IDProducto, Nombre, Precio, Descripcion 
-            // Los datos de DynamoDB para este producto son correctos
-
             // Guardar en la memoria para el detalle rápido
             window.todosLosProductos[producto.IDProducto] = producto;
 
@@ -89,6 +80,7 @@ async function cargarProductosIniciales() {
 
     } catch (error) {
         console.error("Error al cargar productos:", error);
+        const listaProductosDiv = document.getElementById("lista-productos");
         listaProductosDiv.innerHTML = `<p class="alert alert-danger">Error al cargar los productos: ${error.message}</p>`;
     }
 }
