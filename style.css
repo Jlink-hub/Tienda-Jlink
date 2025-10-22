@@ -1,7 +1,7 @@
 /* style.css */
 
 /* ---------------------------------- */
-/* 1. Estilos Generales y del Cuerpo   */
+/* 1. Estilos Generales y del Cuerpo  */
 /* ---------------------------------- */
 body {
     font-family: Arial, sans-serif;
@@ -15,7 +15,7 @@ body {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 0 20px; /* Ajustado para que el padding no choque con el header */
 }
 
 /* ---------------------------------- */
@@ -24,23 +24,45 @@ body {
 header {
     background-color: #A00000; /* Color rojo oscuro de tu cabecera */
     color: white;
-    padding: 40px 0;
-    text-align: left;
+    padding: 20px 0; /* 🟢 AJUSTE: Franja roja más fina */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex; /* 🟢 Habilita Flexbox */
+    align-items: center; /* Centra verticalmente el logo y el texto */
+    justify-content: space-between; /* 🟢 CLAVE: Empuja el contenido a los extremos (Logo a la derecha, Texto a la izquierda) */
+    width: 100%; /* Asegura que ocupe todo el ancho del .container */
+    padding: 0;
+}
+
+.header-logo {
+    margin-left: 20px; /* Espacio para que el logo no toque el borde derecho */
+}
+
+.header-logo img {
+    max-width: 100px; /* Tamaño del logo */
+    height: auto;
+    display: block;
+}
+
+.header-texto {
+    /* Mantiene el texto agrupado en la izquierda */
 }
 
 header h1 {
     margin: 0;
     font-size: 2.5em;
-    padding-left: 20px;
+    padding-left: 0; /* Eliminado el padding-left innecesario */
 }
 
 header h2 {
     margin: 5px 0 0;
     font-size: 1.2em;
-    padding-left: 20px;
+    padding-left: 0; /* Eliminado el padding-left innecesario */
     font-weight: 300;
 }
+
 
 /* ---------------------------------- */
 /* 3. Estilos de la Lista de Productos*/
@@ -99,8 +121,8 @@ header h2 {
 /* 🟢 REGLA DE TAMAÑO: Restringe el tamaño máximo de la imagen del producto */
 .producto img {
     max-width: 200px; /* <--- Aumenta o disminuye este valor para cambiar el tamaño */
-    height: auto;     /* Mantiene la proporción */
-    display: block;   /* Para aplicar centrado y márgenes */
+    height: auto;      /* Mantiene la proporción */
+    display: block;    /* Para aplicar centrado y márgenes */
     margin: 0 auto 15px auto; /* Centrado horizontal y margen inferior */
     border: 1px solid #eee; /* Borde opcional */
     padding: 5px;
@@ -112,7 +134,7 @@ header h2 {
 }
 
 /* ---------------------------------- */
-/* 5. Estilos de Botones y Footer     */
+/* 5. Estilos de Botones y Footer      */
 /* ---------------------------------- */
 
 button, .btn-success {
