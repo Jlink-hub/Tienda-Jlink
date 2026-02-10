@@ -10,55 +10,50 @@
 
     <header>
         <div class="header-content container">
+            <div class="header-logo">
+                <img src="https://jlink-tienda-online-2025-19.s3.us-east-2.amazonaws.com/Logo_Jlink.jpeg" alt="Logo Jlink">
+            </div>
             <div class="header-texto">
                 <h1>Jlink Technical Services</h1>
                 <h2>Venta de Componentes Electrónicos</h2>
             </div>
-            <div class="header-logo">
-                <img src="https://jlink-tienda-online-2025-19.s3.us-east-2.amazonaws.com/Logo_Jlink.jpeg" alt="Logo Jlink">
-            </div>
         </div>
 
         <nav class="main-nav">
-            <ul class="nav-list container">
-                <li><a href="#productos">Productos</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">Impresiones 3D ▼</a>
-                    <div class="dropdown-content">
-                        <a href="#filamentos">Filamentos</a>
-                        <a href="#servicios">Servicios de Impresión</a>
-                        <a href="#modelos">Modelos Listos</a>
-                    </div>
-                </li>
-                <li><a href="#contacto">Contacto</a></li>
-            </ul>
+            <div class="container nav-wrapper">
+                <ul class="nav-list">
+                    <li><a href="#productos">Productos</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">Impresiones 3D ▼</a>
+                        <div class="dropdown-content">
+                            <a href="#filamentos">Filamentos</a>
+                            <a href="#servicios">Servicios</a>
+                        </div>
+                    </li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+                <div class="search-box">
+                    <input type="text" id="busqueda" placeholder="¿Qué buscas hoy?" onkeyup="filtrarProductos()">
+                    <button onclick="filtrarProductos()">🔍</button>
+                </div>
+            </div>
         </nav>
     </header>
-
-    <section class="search-section container">
-        <div class="search-box">
-            <input type="text" id="busqueda" placeholder="Buscar componentes, herramientas, filamentos..." onkeyup="filtrarProductos()">
-            <button class="search-btn">🔍</button>
-        </div>
-    </section>
 
     <main class="container">
         <section id="productos">
             <h2 class="section-title">Nuestros Productos Destacados</h2>
             <div id="lista-productos" class="productos-grid">
-                <p class="loading">Cargando catálogo de productos...</p>
+                <p class="loading">Cargando catálogo...</p>
             </div>
         </section>
     </main>
 
-    <section id="contacto" class="container contact-section">
-        <h3>Contáctanos</h3>
-        <p>Atención personalizada en Manta, Ecuador.</p>
-        <a href="https://wa.me/593997419277" target="_blank" class="btn-whatsapp-global">Chatear con un técnico</a>
-    </section>
-
     <footer>
-        <p>&copy; 2025-2026 Jlink Technical Services. <br> TLF: 0997419277 | Manta, Ecuador</p>
+        <div class="container">
+            <p>&copy; 2025-2026 Jlink Technical Services. Manta, Ecuador</p>
+            <p>WhatsApp: 0997419277</p>
+        </div>
     </footer>
 
     <script src="app.js"></script>
