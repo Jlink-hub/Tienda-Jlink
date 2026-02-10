@@ -22,9 +22,10 @@
         <nav class="main-nav">
             <div class="container nav-wrapper">
                 <ul class="nav-list">
+                    <li><a href="#quienes-somos">Quiénes Somos</a></li>
                     <li><a href="#productos">Productos</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropbtn">Impresiones 3D ▼</a>
+                        <a href="javascript:void(0)" class="dropbtn">Impresiones 3D ▼</a>
                         <div class="dropdown-content">
                             <a href="#filamentos">Filamentos</a>
                             <a href="#servicios">Servicios</a>
@@ -33,7 +34,7 @@
                     <li><a href="#contacto">Contacto</a></li>
                 </ul>
                 <div class="search-box">
-                    <input type="text" id="busqueda" placeholder="¿Qué buscas hoy?" onkeyup="filtrarProductos()">
+                    <input type="text" id="busqueda" placeholder="¿Qué buscas hoy?" oninput="filtrarProductos()">
                     <button onclick="filtrarProductos()">🔍</button>
                 </div>
             </div>
@@ -41,10 +42,19 @@
     </header>
 
     <main class="container">
+        <section id="quienes-somos" class="about-section">
+            <h2 class="section-title">¿Quiénes Somos?</h2>
+            <div class="about-content">
+                <p>
+                    Somos especialistas en soluciones tecnológicas radicados en <strong>Manta, Ecuador</strong>. En Jlink nos apasiona la electrónica y la innovación, ofreciendo un catálogo seleccionado de componentes de alta calidad y servicios avanzados de impresión 3D. Nuestro compromiso es brindar asesoría técnica real para que tus proyectos se hagan realidad con éxito.
+                </p>
+            </div>
+        </section>
+
         <section id="productos">
             <h2 class="section-title">Nuestros Productos Destacados</h2>
             <div id="lista-productos" class="productos-grid">
-                <p class="loading">Cargando catálogo...</p>
+                <p class="loading">Cargando catálogo tecnológico...</p>
             </div>
         </section>
     </main>
