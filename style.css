@@ -1,172 +1,130 @@
-/* --- Globales --- */
+/* --- Paleta de Colores (Azul Profesional) --- */
 :root {
-    --rojo-principal: #A00000;
-    --rojo-oscuro: #700000;
-    --gris-fondo: #f8f9fa;
-    --verde-wa: #25D366;
+    --azul-oscuro: #001529; /* Color basado en tu logo */
+    --azul-brillante: #003a70;
+    --gris-claro: #f4f7f6;
+    --blanco: #ffffff;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
-    background-color: var(--gris-fondo);
+    background-color: var(--gris-claro);
     color: #333;
 }
 
 .container {
-    width: 90%;
+    width: 95%;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* --- Header y Nav --- */
+/* --- Header --- */
 header {
-    background-color: var(--rojo-principal);
-    color: white;
-    padding-top: 20px;
+    background-color: var(--azul-oscuro);
+    color: var(--blanco);
+    padding: 20px 0;
 }
 
 .header-content {
     display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Logo más grande y claro */
+.header-logo img {
+    width: 150px; /* Tamaño aumentado */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.header-texto h1 { margin: 0; font-size: 2.2rem; }
+.header-texto h2 { margin: 5px 0 0; font-weight: 300; opacity: 0.9; }
+
+/* --- Navegación y Buscador --- */
+.main-nav {
+    background-color: var(--azul-brillante);
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-wrapper {
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 20px;
+    flex-wrap: wrap;
 }
 
-.header-logo img {
-    max-width: 80px;
-    border-radius: 50%;
-    border: 2px solid white;
-}
-
-.main-nav { background-color: var(--rojo-oscuro); }
 .nav-list { display: flex; list-style: none; padding: 0; margin: 0; }
 .nav-list a { 
     color: white; 
-    padding: 15px 20px; 
-    display: block; 
-    text-decoration: none;
-    font-weight: 600;
+    padding: 10px 15px; 
+    text-decoration: none; 
+    font-weight: 500;
 }
-.nav-list a:hover { background-color: var(--rojo-principal); }
 
-/* --- Barra de Búsqueda --- */
-.search-section { margin: 30px auto; }
 .search-box {
     display: flex;
     background: white;
-    padding: 5px;
-    border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    overflow: hidden;
 }
-#busqueda {
-    flex: 1;
+
+.search-box input {
     border: none;
-    padding: 12px 25px;
-    border-radius: 50px;
+    padding: 8px 15px;
     outline: none;
-    font-size: 16px;
+    width: 250px;
 }
-.search-btn {
-    background: var(--rojo-principal);
-    color: white;
+
+.search-box button {
+    background: #ddd;
     border: none;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
+    padding: 0 15px;
     cursor: pointer;
 }
 
 /* --- Grid de Productos --- */
-.section-title {
-    text-align: center;
-    margin-bottom: 30px;
-    position: relative;
-}
-.section-title::after {
-    content: '';
-    width: 60px;
-    height: 3px;
-    background: var(--rojo-principal);
-    display: block;
-    margin: 10px auto;
-}
-
 .productos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 25px;
-    margin-bottom: 50px;
+    margin-top: 30px;
 }
 
-/* --- Estilo de Tarjeta (Card) --- */
 .producto-card {
     background: white;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    transition: 0.3s;
-    border: 1px solid #eee;
-}
-.producto-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-}
-
-.card-img-container {
-    height: 200px;
-    padding: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #fff;
-}
-.card-img-container img {
-    max-height: 100%;
-    max-width: 100%;
-    object-fit: contain;
-}
-
-.card-info { padding: 20px; text-align: center; }
-.prod-nombre { font-size: 1.1em; margin: 0; color: #444; }
-.prod-desc { font-size: 0.9em; color: #777; margin: 10px 0; min-height: 40px; }
-.prod-precio { 
-    font-size: 1.4em; 
-    color: var(--rojo-principal); 
-    font-weight: bold; 
-    margin: 15px 0;
-}
-
-/* Botones dentro de la card */
-.card-buttons { display: flex; gap: 10px; justify-content: center; }
-.btn-detalle, .btn-comprar {
-    padding: 10px 15px;
     border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 0.9em;
-    cursor: pointer;
-    border: none;
-}
-.btn-detalle { background: #eee; color: #333; }
-.btn-comprar { background: var(--verde-wa); color: white; }
-
-/* --- Footer --- */
-footer {
-    background: #333;
-    color: white;
+    border: 1px solid #eee;
+    padding: 15px;
     text-align: center;
-    padding: 40px 0;
-    margin-top: 50px;
+    transition: 0.3s;
 }
 
-/* Dropdown corregido */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background: white;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    z-index: 100;
+.producto-card:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
-.dropdown:hover .dropdown-content { display: block; }
-.dropdown-content a { color: #333; border-bottom: 1px solid #eee; }
+
+.producto-card img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.prod-nombre { color: var(--azul-oscuro); font-size: 1.2rem; }
+.prod-precio { font-weight: bold; font-size: 1.3rem; color: #2c3e50; }
+
+.btn-comprar {
+    display: inline-block;
+    background-color: #25D366;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
